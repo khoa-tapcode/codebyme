@@ -1,0 +1,85 @@
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local Debris = game:GetService("Debris")
+
+local CoreGui = (gethui and gethui()) or game:GetService("CoreGui")
+
+if CoreGui:FindFirstChild("skibidi-warning") then
+	CoreGui["skibidi-warning"]:Destroy()
+end
+
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
+ScreenGui.Name = "skibidi-warning"
+ScreenGui.IgnoreGuiInset = true
+Debris:AddItem(ScreenGui, 25)
+
+local Background = Instance.new("Frame", ScreenGui)
+Background.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Background.Size = UDim2.fromScale(1, 1)
+
+local Gradient = Instance.new("UIGradient", Background)
+Gradient.Rotation = 90
+Gradient.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 120, 255)),
+	ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 60, 160))
+})
+
+local Center = Instance.new("Frame", Background)
+Center.Size = UDim2.fromScale(0.3, 0.1)
+Center.AnchorPoint = Vector2.new(0.5, 1)
+Center.Position = UDim2.new(0.5, 0, 0.92, 0)
+Center.BackgroundColor3 = Color3.fromRGB(20, 40, 80)
+
+local Corner = Instance.new("UICorner", Center)
+Corner.CornerRadius = UDim.new(0, 10)
+
+local ServerLink = "discord.gg/skibidi"
+local WarnMessage = "Skibidi Hub is currently offline\nJoin our Discord for updates!"
+
+local Warn = Instance.new("TextLabel", Background)
+Warn.Text = WarnMessage
+Warn.Size = UDim2.new(0.65, 0, 0.22, 0)
+Warn.AnchorPoint = Vector2.new(0.5, 0.5)
+Warn.Position = UDim2.fromScale(0.5, 0.45)
+Warn.Font = Enum.Font.GothamBold
+Warn.TextColor3 = Color3.fromRGB(200, 230, 255)
+Warn.TextScaled = true
+Warn.BackgroundTransparency = 1
+
+local CopyLink = Instance.new("TextButton", Center)
+CopyLink.Text = ServerLink
+CopyLink.Size = UDim2.new(0.85, 0, 0.6, 0)
+CopyLink.AnchorPoint = Vector2.new(0.5, 0.5)
+CopyLink.Position = UDim2.fromScale(0.5, 0.5)
+CopyLink.Font = Enum.Font.Gotham
+CopyLink.TextColor3 = Color3.fromRGB(180, 220, 255)
+CopyLink.TextScaled = true
+CopyLink.TextTransparency = 0.1
+CopyLink.BackgroundTransparency = 1
+
+CopyLink.Activated:Connect(function()
+	if CopyLink.Text ~= "Copied!" then
+		setclipboard(ServerLink)
+		CopyLink.Text = "Copied!"
+		task.wait(2)
+		CopyLink.Text = ServerLink
+	end
+end)
+
+local CloseButton = Instance.new("TextButton", Background)
+CloseButton.Size = UDim2.fromScale(0.1, 0.055)
+CloseButton.Position = UDim2.fromScale(0.28, 0.99)
+CloseButton.AnchorPoint = Vector2.new(1, 1)
+CloseButton.Text = "Close"
+CloseButton.BackgroundColor3 = Color3.fromRGB(25, 50, 100)
+CloseButton.TextColor3 = Color3.fromRGB(100, 200, 255)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextScaled = true
+CloseButton.TextTransparency = 0.2
+
+local Corner = Instance.new("UICorner", CloseButton)
+Corner.CornerRadius = UDim.new(0, 10)
+
+CloseButton.Activated:Connect(function()
+	ScreenGui:Destroy()
+end)
